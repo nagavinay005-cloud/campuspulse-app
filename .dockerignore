@@ -1,0 +1,10 @@
+.env
+.env.example
+.DS_Store
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+*.md
+logs/*
+database/seed.sql
