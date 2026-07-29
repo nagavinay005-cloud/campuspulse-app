@@ -1,0 +1,20 @@
+{
+    "name": "campuspulse/backend",
+    "description": "CampusPulse PHP REST API Backend Foundation with MySQL, PDO, JWT, and Role-Based Authorization",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "App\\Config\\": "config/",
+            "App\\Controllers\\": "controllers/",
+            "App\\Models\\": "models/",
+            "App\\Services\\": "services/",
+            "App\\Middleware\\": "middleware/",
+            "App\\Helpers\\": "helpers/"
+        }
+    },
+    "require": {
+        "php": ">=8.0"
+    }
+}
