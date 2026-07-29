@@ -10,7 +10,7 @@ RUN a2enmod rewrite
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 
 # Copy backend application files into Apache document root
-COPY . /var/www/html/
+COPY backend/ /var/www/html/
 
 # Create required directories with proper permissions
 RUN mkdir -p /var/www/html/logs /var/www/html/uploads \
