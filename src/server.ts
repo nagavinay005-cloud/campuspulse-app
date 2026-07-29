@@ -49,13 +49,14 @@ export default {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      if (response.status >= 500) {
+        console.warn("SSR returned 500 status, allowing client-side hydration recovery.");
+      }
+      return response;
     } catch (error) {
-      console.error("SSR FETCH CATASTROPHIC ERROR:", error);
-      return new Response(renderErrorPage(), {
-        status: 500,
-        headers: { "content-type": "text/html; charset=utf-8" },
-      });
+      console.error("SSR FETCH ERROR (continuing with client hydration):", error);
+      const handler = await getServerEntry();
+      return await handler.fetch(request, env, ctx);
     }
   },
 };
