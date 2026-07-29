@@ -336,7 +336,7 @@ export const eventService = {
     };
 
     fetchEvents();
-    const interval = setInterval(fetchEvents, 6000); // poll every 6s
+    const interval = setInterval(fetchEvents, 30000); // poll every 30s
 
     return () => {
       active = false;

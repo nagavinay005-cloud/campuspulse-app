@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusPulse — Official Presentation Deck</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      line-height: 1.5;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      padding: 3rem 4rem;
+      display: flex;
+      flex-col: column;
+      justify-content: space-between;
+      page-break-after: always;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border-bottom: 1px solid #334155;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .slide-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #38bdf8;
+      letter-spacing: -0.025em;
+    }
+    
+    .slide-subtitle {
+      font-size: 1rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+    }
+    
+    .card {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid #334155;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .card-text {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+    
+    .badge {
+      background: #0284c7;
+      color: #fff;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    
+    .highlight {
+      color: #38bdf8;
+      font-weight: 700;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+    }
+    
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #334155;
+      font-size: 0.9rem;
+    }
+    
+    th {
+      background: #1e293b;
+      color: #38bdf8;
+      font-weight: 700;
+    }
+    
+    td {
+      color: #cbd5e1;
+    }
+    
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-top: 1rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 0.75rem;
+    }
+    
+    /* Cover Slide */
+    .cover-slide {
+      background: radial-gradient(circle at top right, #1e3a8a 0%, #0f172a 60%);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .cover-title {
+      font-size: 4rem;
+      font-weight: 900;
+      background: linear-gradient(to right, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+      letter-spacing: -0.03em;
+    }
+    
+    .cover-tagline {
+      font-size: 1.5rem;
+      color: #94a3b8;
+      max-width: 42rem;
+      margin-bottom: 2.5rem;
+    }
+    
+    .btn-print {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: #0284c7;
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+      z-index: 1000;
+    }
+    
+    @media print {
+      .btn-print { display: none; }
+      body { background: #0f172a; }
+      .slide { width: 100%; height: 100vh; page-break-after: always; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+
+  <!-- SLIDE 1: COVER -->
+  <div class="slide cover-slide">
+    <div>
+      <div style="margin-bottom: 1rem;">
+        <span class="badge" style="font-size: 0.9rem; padding: 0.5rem 1.25rem;">OFFICIAL DEMO & PRESENTATION DECK</span>
+      </div>
+      <h1 class="cover-title">CampusPulse</h1>
+      <p class="cover-tagline">One Campus. Every Event. Role-Scoped Institutional Event & Lifecycle Platform.</p>
+      <div style="display: flex; gap: 1.5rem; justify-content: center;">
+        <div class="card" style="padding: 1rem 1.5rem;">🌐 <b>Frontend:</b> ornate-fox-41d027.netlify.app</div>
+        <div class="card" style="padding: 1rem 1.5rem;">⚡ <b>Backend API:</b> campuspulse-app.onrender.com</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: PROBLEM VS SOLUTION -->
+  <div class="slide">
+    <div class="slide-header">
+      <h2 class="slide-title">Problem Statement vs Solution</h2>
+      <span class="slide-subtitle">Why Universities Need CampusPulse</span>
+    </div>
+    <div class="slide-body grid-2">
+      <div class="card" style="border-left: 4px solid #ef4444;">
+        <div class="card-title" style="color: #f87171;">❌ The Problem</div>
+        <ul style="padding-left: 1.25rem; color: #cbd5e1; line-height: 1.8;">
+          <li><b>Scattered Notices:</b> Posters lost in noisy WhatsApp chats and bulletin boards.</li>
+          <li><b>Gate Overcrowding:</b> Paper sign-in sheets create slow entry queues and proxy logins.</li>
+          <li><b>Delayed Certificates:</b> Students wait months to receive participation certificates.</li>
+          <li><b>Expired Feed Clutter:</b> Past events clutter active notice boards.</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left: 4px solid #10b981;">
+        <div class="card-title" style="color: #34d399;">✅ The CampusPulse Solution</div>
+        <ul style="padding-left: 1.25rem; color: #cbd5e1; line-height: 1.8;">
+          <li><b>Unified AI Feed:</b> Real-time discovery with category & department filters.</li>
+          <li><b>QR Venue Check-In:</b> Scannable entry passes for 1-second gate verification.</li>
+          <li><b>Instant PDF Certificates:</b> Verified certificates unlocked in student wallets.</li>
+          <li><b>Auto Expiry Archiving:</b> Ended events automatically move to searchable archives.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer">
+      <span>CampusPulse Architecture Deck</span>
+      <span>Slide 2 of 6</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: TECH STACK ARCHITECTURE -->
+  <div class="slide">
+    <div class="slide-header">
+      <h2 class="slide-title">System Architecture</h2>
+      <span class="slide-subtitle">Production Multi-Tier Stack</span>
+    </div>
+    <div class="slide-body grid-3">
+      <div class="card">
+        <div class="card-title">🖥️ Frontend Layer</div>
+        <p class="card-text">
+          • <b>React 19</b> Single Page Application<br>
+          • <b>TanStack Router</b> & Query<br>
+          • <b>Tailwind CSS 4.0</b> Styling<br>
+          • <b>Framer Motion</b> Animations<br>
+          • <i>Hosted on Netlify (Static SPA)</i>
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">⚙️ Backend API Layer</div>
+        <p class="card-text">
+          • <b>PHP 8.2 MVC</b> REST API<br>
+          • <b>JWT Bearer Token</b> Auth<br>
+          • <b>Dynamic CORS & XSS</b> Guard<br>
+          • Apache Rewrite Module<br>
+          • <i>Hosted on Render (Docker)</i>
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">💾 Database & Cloud</div>
+        <p class="card-text">
+          • <b>MySQL 8.0</b> Relational Schema<br>
+          • 12 Normalized SQL Tables<br>
+          • <b>Firebase Auth</b> (Google OAuth)<br>
+          • <b>Firestore</b> Realtime Sync<br>
+          • <i>Auto Expiry Daemon</i>
+        </p>
+      </div>
+    </div>
+    <div class="footer">
+      <span>CampusPulse Architecture Deck</span>
+      <span>Slide 3 of 6</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: ROLE-BASED PORTALS -->
+  <div class="slide">
+    <div class="slide-header">
+      <h2 class="slide-title">Role-Scoped Portals</h2>
+      <span class="slide-subtitle">Tailored Interfaces for Campus Stakeholders</span>
+    </div>
+    <div class="slide-body grid-3">
+      <div class="card">
+        <div class="card-title">🎓 Student Portal</div>
+        <p class="card-text" style="font-size: 0.85rem;">
+          • Browse AI-filtered events<br>
+          • One-click registration<br>
+          • QR Ticket Pass Wallet<br>
+          • Instant Certificate Downloads<br>
+          • AI Chat Assistant Widget
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">📋 Organizer Desk</div>
+        <p class="card-text" style="font-size: 0.85rem;">
+          • Event Creation Studio<br>
+          • Live Gate QR Code Scanner<br>
+          • Real-time Attendance Turnout<br>
+          • Export Participant CSV<br>
+          • Capacity & Fee Management
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">🛡️ Admin Center</div>
+        <p class="card-text" style="font-size: 0.85rem;">
+          • Event Approvals & Governance<br>
+          • 3D Digital Twin Heatmaps<br>
+          • Predictive Risk Analytics<br>
+          • Department Management<br>
+          • Institutional Audit Tracing
+        </p>
+      </div>
+    </div>
+    <div class="footer">
+      <span>CampusPulse Architecture Deck</span>
+      <span>Slide 4 of 6</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: LIVE DEMO SCRIPT -->
+  <div class="slide">
+    <div class="slide-header">
+      <h2 class="slide-title">Judge Presentation & Demo Flow</h2>
+      <span class="slide-subtitle">3-Minute Live Workflow</span>
+    </div>
+    <div class="slide-body">
+      <table>
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>Role & Action</th>
+            <th>Expected Live Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>1</b></td>
+            <td><b>Student Google Login</b></td>
+            <td>User logs in via Google popup → Selects event <b>"AI Agentic Coding Challenge"</b> → Gets QR Pass ticket.</td>
+          </tr>
+          <tr>
+            <td><b>2</b></td>
+            <td><b>Organizer Gate Check-In</b></td>
+            <td>Log in as <code>organizer@campus.edu</code> (pass: <code>organizer</code>) → Open QR Scanner → Scan pass → Attendance marked Present.</td>
+          </tr>
+          <tr>
+            <td><b>3</b></td>
+            <td><b>Certificate & Auto-Archive</b></td>
+            <td>Student profile unlocks verified PDF certificate. Event moves automatically to searchable Archive vault.</td>
+          </tr>
+          <tr>
+            <td><b>4</b></td>
+            <td><b>Admin Command Center</b></td>
+            <td>Log in as <code>admin@campus.edu</code> (pass: <code>admin</code>) → View 3D Digital Twin venue heatmaps & audit logs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer">
+      <span>CampusPulse Architecture Deck</span>
+      <span>Slide 5 of 6</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: CREDENTIALS SUMMARY -->
+  <div class="slide">
+    <div class="slide-header">
+      <h2 class="slide-title">Production Summary & Credentials</h2>
+      <span class="slide-subtitle">Ready for Presentation</span>
+    </div>
+    <div class="slide-body grid-2">
+      <div class="card">
+        <div class="card-title">🌐 Live App URLs</div>
+        <p class="card-text" style="line-height: 2;">
+          <b>Frontend:</b> <a href="https://ornate-fox-41d027.netlify.app/" style="color:#38bdf8;">https://ornate-fox-41d027.netlify.app/</a><br>
+          <b>Backend REST API:</b> <a href="https://campuspulse-app.onrender.com/api/v1" style="color:#38bdf8;">https://campuspulse-app.onrender.com/api/v1</a><br>
+          <b>Health Check:</b> <a href="https://campuspulse-app.onrender.com/api/v1/health" style="color:#38bdf8;">https://campuspulse-app.onrender.com/api/v1/health</a>
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">🔑 Quick Login Details</div>
+        <p class="card-text" style="line-height: 1.8;">
+          • <b>Student:</b> Google Sign-In button<br>
+          • <b>Organizer:</b> <code>organizer@campus.edu</code> / <code>organizer</code><br>
+          • <b>Admin:</b> <code>admin@campus.edu</code> / <code>admin</code>
+        </p>
+      </div>
+    </div>
+    <div class="footer">
+      <span>CampusPulse Architecture Deck</span>
+      <span>Slide 6 of 6 — Thank You!</span>
+    </div>
+  </div>
+
+</body>
+</html>

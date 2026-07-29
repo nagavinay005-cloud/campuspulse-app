@@ -144,7 +144,7 @@ export const notificationService = {
     };
 
     fetchNotifs();
-    const interval = setInterval(fetchNotifs, 8000); // poll every 8 seconds
+    const interval = setInterval(fetchNotifs, 30000); // poll every 30s
 
     return () => {
       active = false;

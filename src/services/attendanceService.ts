@@ -184,7 +184,7 @@ export const attendanceService = {
     };
 
     fetchAttendance();
-    const interval = setInterval(fetchAttendance, 6000); // poll every 6s
+    const interval = setInterval(fetchAttendance, 30000); // poll every 30s
 
     return () => {
       active = false;

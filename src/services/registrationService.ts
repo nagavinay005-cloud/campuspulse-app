@@ -241,7 +241,7 @@ export const registrationService = {
     };
 
     fetchRegistrations();
-    const interval = setInterval(fetchRegistrations, 6000); // poll every 6s
+    const interval = setInterval(fetchRegistrations, 30000); // poll every 30s
 
     return () => {
       active = false;
