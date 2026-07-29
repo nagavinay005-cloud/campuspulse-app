@@ -44,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const syncProfileAndSession = async (currentUser: FirebaseUser, firebaseProfile: UserProfile | null) => {
     try {
-      let token = localStorage.getItem("campuspulse_jwt_token");
+      let token = typeof window !== "undefined" ? localStorage.getItem("campuspulse_jwt_token") : null;
       if (!token && currentUser.email) {
         try {
           const res = await fetch(`${API_BASE_URL}/auth/google-login`, {
@@ -61,7 +61,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const data = await res.json();
             if (data.success && data.data?.token) {
               token = data.data.token;
-              localStorage.setItem("campuspulse_jwt_token", token);
+              if (typeof window !== "undefined") {
+                localStorage.setItem("campuspulse_jwt_token", token);
+              }
             }
           }
         } catch (err) {
