@@ -42,46 +42,39 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
-    // Auto-recover on client if error was caused by SSR hydration mismatch
-    const timer = setTimeout(() => {
-      try {
-        router.invalidate();
-        reset();
-      } catch (e) {
-        console.warn("Auto-recovery reset skipped:", e);
-      }
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [error, reset, router]);
+  }, [error]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-6 text-center">
-      <div className="size-12 rounded-2xl bg-primary/10 p-3 text-primary flex items-center justify-center mb-4">
-        <svg className="size-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-6 text-left max-w-2xl mx-auto space-y-4">
+      <div className="w-full rounded-2xl bg-destructive/10 border border-destructive/30 p-6 space-y-3">
+        <h1 className="text-lg font-bold text-destructive flex items-center gap-2">
+          <span>⚠️</span> Runtime Error Detected on Deployment
+        </h1>
+        <p className="text-xs font-semibold text-foreground font-mono bg-card/60 p-3 rounded-xl border border-border overflow-x-auto">
+          {error?.message || String(error)}
+        </p>
+        {error?.stack && (
+          <pre className="text-[10px] text-muted-foreground bg-card/40 p-3 rounded-xl overflow-x-auto max-h-48 border border-border">
+            {error.stack}
+          </pre>
+        )}
       </div>
-      <h1 className="text-xl font-bold tracking-tight text-foreground">
-        Loading CampusPulse Application...
-      </h1>
-      <p className="mt-2 max-w-sm text-xs text-muted-foreground">
-        Connecting to backend services and synchronizing campus events...
-      </p>
-      <div className="mt-6 flex gap-3">
+      <div className="flex gap-3">
         <button
           type="button"
           onClick={() => {
-            if (typeof window !== "undefined") window.location.reload();
+            router.invalidate();
+            reset();
           }}
           className="rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-sm hover:bg-primary/90"
         >
-          Reload Workspace
+          Try Again
         </button>
         <a
           href="/"
           className="rounded-xl border border-border bg-card px-4 py-2 text-xs font-semibold text-foreground hover:bg-accent"
         >
-          Return to Home
+          Go Home
         </a>
       </div>
     </div>
