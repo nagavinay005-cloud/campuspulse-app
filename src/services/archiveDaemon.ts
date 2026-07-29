@@ -55,9 +55,9 @@ export const archiveDaemon = {
       }
 
       // Calculate Event End Datetime
-      const endDateTime = new Date(`${ev.endDate}T${ev.endTime || "23:59"}`).getTime();
+      const endDateTime = ev.end ? new Date(ev.end).getTime() : NaN;
 
-      // Check if 1 hour SLA post end time has passed
+      // Check if event end time has passed
       if (!isNaN(endDateTime) && now >= endDateTime + 3600000) {
         const success = await archiveEvent(
           ev.eventId,
@@ -211,7 +211,4 @@ export const archiveDaemon = {
   },
 };
 
-// Auto-start daemon on module import
-if (typeof window !== "undefined") {
-  archiveDaemon.startDaemon(30000);
-}
+
