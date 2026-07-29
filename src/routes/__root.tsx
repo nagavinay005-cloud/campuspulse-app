@@ -37,38 +37,52 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
+  console.error("Root Route Error caught:", error);
   const router = useRouter();
+
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
+    // Auto-recover on client if error was caused by SSR hydration mismatch
+    const timer = setTimeout(() => {
+      try {
+        router.invalidate();
+        reset();
+      } catch (e) {
+        console.warn("Auto-recovery reset skipped:", e);
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [error, reset, router]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Try again
-          </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
-          </a>
-        </div>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-6 text-center">
+      <div className="size-12 rounded-2xl bg-primary/10 p-3 text-primary flex items-center justify-center mb-4">
+        <svg className="size-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      </div>
+      <h1 className="text-xl font-bold tracking-tight text-foreground">
+        Loading CampusPulse Application...
+      </h1>
+      <p className="mt-2 max-w-sm text-xs text-muted-foreground">
+        Connecting to backend services and synchronizing campus events...
+      </p>
+      <div className="mt-6 flex gap-3">
+        <button
+          type="button"
+          onClick={() => {
+            if (typeof window !== "undefined") window.location.reload();
+          }}
+          className="rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-sm hover:bg-primary/90"
+        >
+          Reload Workspace
+        </button>
+        <a
+          href="/"
+          className="rounded-xl border border-border bg-card px-4 py-2 text-xs font-semibold text-foreground hover:bg-accent"
+        >
+          Return to Home
+        </a>
       </div>
     </div>
   );
