@@ -47,9 +47,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       let token = typeof window !== "undefined" ? localStorage.getItem("campuspulse_jwt_token") : null;
       if (!token && currentUser.email) {
         try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 2500);
           const res = await fetch(`${API_BASE_URL}/auth/google-login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            signal: controller.signal,
             body: JSON.stringify({
               email: currentUser.email,
               google_id: currentUser.uid,
@@ -57,6 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               photo: currentUser.photoURL || "",
             }),
           });
+          clearTimeout(timeoutId);
           if (res.ok) {
             const data = await res.json();
             if (data.success && data.data?.token) {
@@ -67,17 +71,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
           }
         } catch (err) {
-          console.warn("Backend google-login API unavailable, continuing with client session:", err);
+          console.warn("Backend google-login API unavailable or timed out, continuing with client session:", err);
         }
       }
 
       if (token) {
         try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 2500);
           const res = await fetch(`${API_BASE_URL}/auth/me`, {
+            signal: controller.signal,
             headers: {
               "Authorization": `Bearer ${token}`
             }
           });
+          clearTimeout(timeoutId);
           if (res.ok) {
             const data = await res.json();
             if (data.success && data.data) {
@@ -116,7 +124,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
           }
         } catch (err) {
-          console.warn("Backend auth/me API unavailable, continuing with client session:", err);
+          console.warn("Backend auth/me API unavailable or timed out, continuing with client session:", err);
         }
       }
     } catch (e) {
