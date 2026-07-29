@@ -80,12 +80,17 @@ function EventFeed() {
   const results = useMemo(() => {
     let list = fsEvents.filter((e) => {
       // 1. Search Query matches title, organizer/club, or category
-      const qStr = query.toLowerCase();
+      const qStr = query.trim().toLowerCase();
       const matchQ =
         !qStr ||
         e.title.toLowerCase().includes(qStr) ||
+        e.summary.toLowerCase().includes(qStr) ||
+        e.description.toLowerCase().includes(qStr) ||
         e.organizer.toLowerCase().includes(qStr) ||
-        e.category.toLowerCase().includes(qStr);
+        e.club.toLowerCase().includes(qStr) ||
+        e.department.toLowerCase().includes(qStr) ||
+        e.category.toLowerCase().includes(qStr) ||
+        e.tags.some((t) => t.toLowerCase().includes(qStr));
 
       // 2. Department filter
       const matchDept = department === "all" || e.department === department;

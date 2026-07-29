@@ -23,11 +23,18 @@ export function useFirestoreEvents(pageSize: number = 9) {
       const res = await firestoreEventService.getPublishedUpcomingEvents(pageSize, null);
       
       const mapped = res.events.map((e) => firestoreEventToCampusEvent(e.id, e.data));
-      setEvents(mapped);
+      import("@/data/mock").then(({ events: mockEvents }) => {
+        const firestoreIds = new Set(mapped.map((m) => m.id));
+        const combined = [...mapped, ...mockEvents.filter((m) => !firestoreIds.has(m.id))];
+        setEvents(combined);
+      });
       setLastDoc(res.lastDoc);
       setHasMore(res.events.length === pageSize);
     } catch (err: any) {
-      console.error("Error loading Firestore events:", err);
+      console.error("Error loading Firestore events, falling back to mock events:", err);
+      import("@/data/mock").then(({ events: mockEvents }) => {
+        setEvents(mockEvents);
+      });
       setError(err.message || "Failed to load events from Firestore.");
     } finally {
       setLoading(false);
