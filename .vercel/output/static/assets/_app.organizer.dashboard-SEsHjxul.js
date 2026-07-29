@@ -1,0 +1,1 @@
+import{n as e}from"./index-C8lWASpz.js";var t=e;export{t as component};
